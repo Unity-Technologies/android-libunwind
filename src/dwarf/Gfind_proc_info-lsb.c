@@ -593,7 +593,7 @@ dwarf_find_debug_frame (int found, unw_dyn_info_t *di_debug, unw_word_t ip,
 #endif /* CONFIG_DEBUG_FRAME */
 
 #ifndef UNW_REMOTE_ONLY
-
+#include "dl-iterate-phdr.h"
 /* ptr is a pointer to a dwarf_callback_data structure and, on entry,
    member ip contains the instruction-pointer we're looking
    for.  */

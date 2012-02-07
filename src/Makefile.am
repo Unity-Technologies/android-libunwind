@@ -143,7 +143,7 @@ libunwind_la_SOURCES_local =						\
 	$(libunwind_la_SOURCES_local_unwind)
 
 noinst_HEADERS += os-linux.h
-libunwind_la_SOURCES_os_linux = os-linux.c
+libunwind_la_SOURCES_os_linux = os-linux.c dl-iterate-phdr.c
 
 libunwind_la_SOURCES_os_hpux = os-hpux.c
 
@@ -216,14 +216,14 @@ libunwind_la_SOURCES_arm = $(libunwind_la_SOURCES_arm_common)		    \
 	arm/Lcreate_addr_space.c arm/Lget_proc_info.c arm/Lget_save_loc.c   \
 	arm/Lglobal.c arm/Linit.c arm/Linit_local.c arm/Linit_remote.c	    \
 	arm/Lis_signal_frame.c arm/Lregs.c arm/Lresume.c arm/Lstep.c	    \
-	arm/Lex_tables.c
+	arm/Lex_tables.c os-linux.c dl-iterate-phdr.c
 
 libunwind_arm_la_SOURCES_arm = $(libunwind_la_SOURCES_arm_common)	    \
 	$(libunwind_la_SOURCES_generic)					    \
 	arm/Gcreate_addr_space.c arm/Gget_proc_info.c arm/Gget_save_loc.c   \
 	arm/Gglobal.c arm/Ginit.c arm/Ginit_local.c arm/Ginit_remote.c	    \
 	arm/Gis_signal_frame.c arm/Gregs.c arm/Gresume.c arm/Gstep.c	    \
-	arm/Gex_tables.c
+	arm/Gex_tables.c os-linux.c dl-iterate-phdr.c
 
 # The list of files that go both into libunwind and libunwind-ia64:
 noinst_HEADERS += ia64/init.h ia64/offsets.h ia64/regs.h		    \
