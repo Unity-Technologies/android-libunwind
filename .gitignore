@@ -25,6 +25,7 @@ doc/common.tex
 src/[GL]cursor_i.h
 src/mk_[GL]cursor_i.s
 
+unity/builds
 unity/libs
 unity/obj
 
