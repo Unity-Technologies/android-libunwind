@@ -32,7 +32,7 @@ if (-d 'obj')
 my $ndkBuild = $ENV{ANDROID_NDK_ROOT} . '/ndk-build';
 my $ndkDebug = 0;
 system($ndkBuild, "NDK_DEBUG=$ndkDebug", 'clean');
-system($ndkBuild, "NDK_DEBUG=$ndkDebug");
+system($ndkBuild, "NDK_DEBUG=$ndkDebug", '-j8');
 
 mkpath('builds/arm64-v8a') or die('Failed to create builds/arm64-v8a directory');
 move('obj/local/arm64-v8a/libunwind.a', 'builds/arm64-v8a/libunwind.a') or die('Failed to move arm64-v8a/libunwind.a');
