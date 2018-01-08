@@ -25,6 +25,9 @@ doc/common.tex
 src/[GL]cursor_i.h
 src/mk_[GL]cursor_i.s
 
+unity/libs
+unity/obj
+
 tests/[GL]test-bt
 tests/[GL]test-concurrent
 tests/[GL]test-dyn1
