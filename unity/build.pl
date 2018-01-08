@@ -37,3 +37,5 @@ system($ndkBuild, "NDK_DEBUG=$ndkDebug");
 mkpath('builds/arm64-v8a') or die('Failed to create builds/arm64-v8a directory');
 move('obj/local/arm64-v8a/libunwind.a', 'builds/arm64-v8a/libunwind.a') or die('Failed to move arm64-v8a/libunwind.a');
 File::Copy::Recursive::dircopy('../include', 'builds/include') or die ('Failed to copy include directory');
+
+system('zip', '-r', 'builds/builds.zip', 'builds') and die ('Failed to zip builds directory');
