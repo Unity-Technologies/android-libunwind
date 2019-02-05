@@ -9,7 +9,7 @@ use File::Spec qw(rel2abs);
 use lib File::Spec->rel2abs(dirname(__FILE__)) . '/perl';
 use PrepareAndroidSDK;
 
-PrepareAndroidSDK::GetAndroidSDK('android-21', undef, 'r16b');
+PrepareAndroidSDK::GetAndroidSDK('android-21', undef, 'r19');
 
 die('ANDROID_NDK_ROOT environment variable is not set') unless $ENV{ANDROID_NDK_ROOT};
 chdir(File::Spec->rel2abs(dirname(__FILE__)));

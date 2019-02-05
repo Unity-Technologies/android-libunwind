@@ -181,6 +181,12 @@ our $ndks =
         "macosx"  => "android-ndk-r17-darwin-x86_64.zip",
         "linux"   => "android-ndk-r17-linux-x86_64.zip",
         },
+    "r19" =>
+        {
+        "windows" => "android-ndk-r19-windows-x86_64.zip",
+        "macosx"  => "android-ndk-r19-darwin-x86_64.zip",
+        "linux"   => "android-ndk-r19-linux-x86_64.zip",
+        },
     };
 
 our $sourcePropVersions =
@@ -188,6 +194,7 @@ our $sourcePropVersions =
     "13.1.3345770" => "r13b (64-bit)",
     "16.1.4479499" => "r16b (64-bit)",
     "17.0.4754217" => "r17 (64-bit)",
+    "19.0.5232133" => "r19 (64-bit)",
     };
 
 our ($HOST_ENV, $TMP, $HOME, $WINZIP);
@@ -587,7 +594,7 @@ sub PrepareNDK
     die("Unknown NDK release '$ndk' (for $HOST_ENV)") if (!$archive);
 
     print "\tDownloading '$ndk' to '$ndk_root'\n";
-    if ($ndk =~ m/r13/ or $ndk =~ m/r16/ or $ndk =~ m/r17/)
+    if ($ndk =~ m/r13/ or $ndk =~ m/r16/ or $ndk =~ m/r17/ or $ndk =~ m/r19/)
     {
         DownloadAndUnpackArchive($BASE_URL_SDK . $archive, $ndk_root);
     }

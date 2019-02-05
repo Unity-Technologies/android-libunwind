@@ -44,7 +44,7 @@ ldflags=(
   "-Wl,--whole-archive"
   "-Wl,--no-whole-archive"
   "-lc"
-  "-lstdc++"
+  "-lc++_static"
   "-lm"
   "-Wl,-z,noexecstack"
   "-Wl,-z,relro"
