@@ -49,7 +49,7 @@ ldflags=(
   "-Wl,--whole-archive"
   "-Wl,--no-whole-archive"
   "-lc"
-  "-lstdc++"
+  "-lc++_static"
   "-lm"
   "-Wl,--no-undefined"
   "-ldl"
