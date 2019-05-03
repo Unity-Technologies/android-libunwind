@@ -79,6 +79,7 @@ endif
 
 ifeq ($(TARGET_ARCH_ABI), armeabi-v7a)
 	LOCAL_SRC_FILES += \
+		$(MY_ROOT)/src/dl-iterate-phdr.c \
 		$(MY_ROOT)/src/arm/is_fpreg.c \
 		$(MY_ROOT)/src/arm/regname.c \
 		$(MY_ROOT)/src/arm/Gcreate_addr_space.c \

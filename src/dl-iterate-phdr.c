@@ -23,49 +23,51 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
 
-#include <limits.h>
-#include <stdio.h>
-
 #include "libunwind_i.h"
-#include "os-linux.h"
 #include "dl-iterate-phdr.h"
+
+#if defined(__arm__) && (__ANDROID_API__ < 21)
+
+#ifndef IS_ELF
+/* Copied from NDK header. */
+#define IS_ELF(ehdr) ((ehdr).e_ident[EI_MAG0] == ELFMAG0 && \
+                      (ehdr).e_ident[EI_MAG1] == ELFMAG1 && \
+                      (ehdr).e_ident[EI_MAG2] == ELFMAG2 && \
+                      (ehdr).e_ident[EI_MAG3] == ELFMAG3)
+#endif
 
 int
 dl_iterate_phdr (int (*callback) (struct dl_phdr_info *info, size_t size, void *data),
-                 void *data)
-{
-        struct map_iterator mi;
-        int found = 0, rc;
-        unsigned long hi;
-        unsigned long low;
+                 void *data) {
+  unw_map_cursor_t cursor;
+  unw_map_t map;
+  Elf_W(Ehdr) *ehdr;
+  Elf_W(Phdr) *phdr;
+  struct dl_phdr_info info;
+  int rc = 0;
 
-  if (maps_init (&mi, getpid()) < 0)
-    return -1;
+  unw_map_local_create ();
+  unw_map_local_cursor_get (&cursor);
 
-  unsigned long offset;
-  while (maps_next (&mi, &low, &hi, &offset)) {
-    struct dl_phdr_info info;
-    info.dlpi_name = mi.path;
-    info.dlpi_addr = low;
+  while (unw_map_local_cursor_get_next (&cursor, &map) > 0)
+  {
+    ehdr = (Elf_W(Ehdr) *) map.start;
+    if (map.path[0] && ((map.flags & (PROT_EXEC | PROT_READ)) == (PROT_EXEC | PROT_READ)) && IS_ELF(*ehdr)) {
+      phdr = (Elf_W(Phdr) *) ((char *) ehdr + ehdr->e_phoff);
+      info.dlpi_addr = map.start;
+      info.dlpi_name = map.path;
+      info.dlpi_phdr = phdr;
+      info.dlpi_phnum = ehdr->e_phnum;
+      rc = callback(&info, sizeof(info), data);
+    }
 
-    Elf_W(Ehdr) *ehdr;
-
-  struct elf_image ei;
-  ei.image = (void*)info.dlpi_addr;
-  ei.size = hi - low;
-
-  //if (!elf_w(valid_object) (&ei))
-  //  continue;
-
-  ehdr = ei.image;
-  Elf_W(Phdr) *phdr = (Elf_W(Phdr) *) ((char *) ei.image + ehdr->e_phoff);
-  info.dlpi_phdr = phdr;
-  info.dlpi_phdr = ehdr->e_phnum;
-  callback(&info, sizeof(info), data);
-
-
+    free(map.path);
+    if (rc)
+      break;
   }
-  maps_close (&mi);
 
+  unw_map_local_destroy ();
   return rc;
 }
+
+#endif /* defined(__arm__) && (__ANDROID_API__ < 21) */
