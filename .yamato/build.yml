@@ -9,6 +9,6 @@ commands:
   - perl ./unity/build.pl
 
 artifacts:
-  build:
+  artifacts:
     paths:
       - unity/builds/builds.zip
